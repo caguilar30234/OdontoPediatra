@@ -8,7 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BackEnd.Controllers
 {
-    
+
+    [Authorize(Roles ="odontologo")]
     [Route("api/[controller]")]
     [ApiController]
     public class AdviceController : ControllerBase

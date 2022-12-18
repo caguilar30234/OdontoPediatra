@@ -2,11 +2,14 @@
 using DAL.Implementations;
 using DAL.Interfaces;
 using Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace BackEnd.Controllers
 {
+    [Authorize(Roles = "odontologo")]
     [Route("api/[controller]")]
     [ApiController]
     public class PatientController : ControllerBase
