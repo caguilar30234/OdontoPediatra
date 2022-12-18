@@ -1,0 +1,60 @@
+﻿@model IEnumerable<FrontEnd.Models.AppointmentViewModel>
+
+@{
+    ViewData["Title"] = "Citas";
+    Layout = "~/Views/Shared/_LayoutAccounts.cshtml";
+}
+
+<h1>Citas</h1>
+
+<p>
+    <a asp-action="Create" , class="btn btn-primary py-2 px-4 ms-3">Crear una cita</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Patient.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Patient.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Schedule.TimeOfDay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Motivo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CitaAsignada)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                    @Html.DisplayFor(modelItem => item.Patient.Name)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.Patient.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Schedule.TimeOfDay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Motivo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CitaAsignada)
+            </td>
+            <td>
+                    @Html.ActionLink("Edit", "Edit", new { id=item.AppoinmentId } ,new { @class="btn btn-primary py-2 px-4 ms-3"}) |
+                    @Html.ActionLink("Details", "Details", new { id=item.AppoinmentId, name=item.PatientId}, new { @class="btn btn-primary py-2 px-4 ms-3"}) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.AppoinmentId }, new { @class="btn btn-danger py-2 px-4 ms-3"})
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

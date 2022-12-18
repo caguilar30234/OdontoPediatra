@@ -1,0 +1,46 @@
+﻿@model FrontEnd.Models.AppointmentViewModel
+
+@{
+    ViewData["Title"] = "Editar Cita";
+    Layout = "~/Views/Shared/_LayoutAccounts.cshtml";
+}
+
+<h1>Editar Cita</h1>
+
+<h4>AppointmentViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            @Html.HiddenFor(Model=>Model.AppoinmentId)
+            @Html.HiddenFor(Model=>Model.PatientId)
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Schedule.TimeOfDay" class="control-label"></label>
+                @Html.DropDownListFor(model => model.ScheduleId, new SelectList(Model.Schedules, "ScheduleId", "TimeOfDay"), "--Select--")
+                <span asp-validation-for="Schedule.TimeOfDay" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Motivo" class="control-label"></label>
+                <input asp-for="Motivo" class="form-control" />
+                <span asp-validation-for="Motivo" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label asp-for="CitaAsignada" class="form-check-label"></label>
+                <input asp-for="CitaAsignada" class="form-check-input" />
+                <span asp-validation-for="CitaAsignada" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Salvar cambios" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+<div>
+    <a asp-action="Index" class="btn btn-primary">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

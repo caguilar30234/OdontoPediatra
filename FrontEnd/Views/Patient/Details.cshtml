@@ -1,0 +1,50 @@
+﻿@model FrontEnd.Models.PatientViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_LayoutAccounts.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>PatientViewModel</h4>
+    <hr />
+    <dl class="row">
+        @Html.HiddenFor(Model => Model.PatientId)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Identification)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Identification)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Age)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Age)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Education.Level)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Education.Level)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.PatientId }, new{@class="btn btn-success"}) |
+    <a asp-action="Index" class="btn btn-primary">Regresar</a>
+</div>

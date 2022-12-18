@@ -1,0 +1,56 @@
+﻿@model FrontEnd.Models.ClinicViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_LayoutAccounts.cshtml";
+    }
+
+<h1>Editar</h1>
+
+<h4>Editar información de clínica</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            @Html.HiddenFor(Model=>Model.ClinicId)
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DoctorId" class="control-label"></label>
+                <input asp-for="DoctorId" class="form-control" />
+                <span asp-validation-for="DoctorId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClinicName" class="control-label"></label>
+                <input asp-for="ClinicName" class="form-control" />
+                <span asp-validation-for="ClinicName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClinicPhone" class="control-label"></label>
+                <input asp-for="ClinicPhone" class="form-control" />
+                <span asp-validation-for="ClinicPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClinicAddress" class="control-label"></label>
+                <input asp-for="ClinicAddress" class="form-control" />
+                <span asp-validation-for="ClinicAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProvinceId" class="control-label"></label>
+                @Html.DropDownListFor(model => model.ProvinceId, new SelectList(Model.Provinces, "ProvinceId", "ProvinceName"), "--Select--")
+                <span asp-validation-for="ProvinceId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+
+                <input type="submit" value="Guardar Cambios" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-primary">Regresar a la lista</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

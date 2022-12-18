@@ -1,0 +1,42 @@
+﻿@model IEnumerable<FrontEnd.Models.ProvinceViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAccounts.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProvinceId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProvinceName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProvinceId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProvinceName)
+            </td>
+            <td>
+                    @Html.ActionLink("Edit", "Edit", new { id=item.ProvinceId },new { @class="btn btn-success"}) |
+                    @Html.ActionLink("Details", "Details", new { id=item.ProvinceId  },new { @class="btn btn-primary"}) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.ProvinceId  },new { @class="btn btn-danger"})
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

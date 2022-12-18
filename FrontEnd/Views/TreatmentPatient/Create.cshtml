@@ -1,0 +1,40 @@
+﻿@model FrontEnd.Models.TreatmentPatientViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_LayoutAccounts.cshtml";
+}
+
+<h1>Crear</h1>
+
+<h4>Treatmento por Paciente</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="PatientId" class="control-label"></label>
+                @Html.DropDownListFor(model => model.PatientId, new SelectList(Model.Patients, "PatientId", "Name"), "--Select--")
+                <span asp-validation-for="PatientId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TreatmentId" class="control-label"></label>
+                @Html.DropDownListFor(model => model.TreatmentId, new SelectList(Model.Treatments, "TreatmentId", "Name"), "--Select--")
+                <span asp-validation-for="TreatmentId" class="text-danger"></span>
+            </div>
+            <br/>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-primary">Regresar</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

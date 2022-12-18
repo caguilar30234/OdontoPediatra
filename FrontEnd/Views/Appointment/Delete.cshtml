@@ -1,0 +1,56 @@
+﻿@model FrontEnd.Models.AppointmentViewModel
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_LayoutAccounts.cshtml";
+}
+
+<h1>Eliminar Cita</h1>
+
+<h3>Esta segurio que desea eliminar la cita?</h3>
+<div>
+    <hr />
+    <dl class="row">
+            @Html.HiddenFor(Model => Model.AppoinmentId)
+            @Html.HiddenFor(Model => Model.PatientId)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Patient.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Patient.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Patient.LastName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Patient.LastName)
+        </dd>
+
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Schedule.TimeOfDay)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Schedule.TimeOfDay)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Motivo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Motivo)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CitaAsignada)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CitaAsignada)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        @Html.HiddenFor(Model => Model.AppoinmentId)
+        <input type="submit" value="Eliminar Cita" class="btn btn-danger" style="padding-right: 10px;"/>
+        <br/>
+        <hr/>
+        <a asp-action="Index" class="btn btn-primary">Volver a la lista</a>
+    </form>
+</div>

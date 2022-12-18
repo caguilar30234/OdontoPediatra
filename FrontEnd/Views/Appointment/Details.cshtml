@@ -1,0 +1,56 @@
+﻿@model FrontEnd.Models.AppointmentViewModel
+
+@{
+    ViewData["Title"] = "Detalle de cita";
+    Layout = "~/Views/Shared/_LayoutAccounts.cshtml";
+}
+
+<h1>Detalle de la cita</h1>
+
+<div>
+    <h4>Detalle del estado de su cita</h4>
+    <hr />
+    <dl class="row">
+        @Html.HiddenFor(Model => Model.AppoinmentId)
+        @Html.HiddenFor(Model => Model.PatientId)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Patient.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Patient.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Patient.LastName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Patient.LastName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Schedule.TimeOfDay)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Schedule.TimeOfDay)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Motivo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Motivo)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CitaAsignada)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CitaAsignada)
+        </dd>
+    </dl>
+    <br/>
+</div>
+<div>
+    @Html.ActionLink("Editar cita", "Edit", new { id = Model.AppoinmentId }, new{@class="btn btn-success"})
+
+</div>
+<br />
+<div>
+    <a asp-action="Index" class="btn btn-primary">Regresar a la lista</a>
+</div>

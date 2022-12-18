@@ -1,0 +1,48 @@
+﻿@model IEnumerable<FrontEnd.Models.TreatmentPatientViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAccounts.cshtml";
+}
+
+<h1>Listado</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Patient.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Patient.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Treatment.Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Patient.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Patient.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Treatment.Name)
+            </td>
+            <td>
+                    @Html.ActionLink("Edit", "Edit", new { id=item.TreatmentPatientId },new { @class="btn btn-success"}) |
+                    @Html.ActionLink("Details", "Details", new { id=item.TreatmentPatientId },new { @class="btn btn-primary"}) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.TreatmentPatientId },new { @class="btn btn-danger"})
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
