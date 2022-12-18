@@ -139,6 +139,18 @@ namespace FrontEnd.Controllers
 
         }
 
+        public IActionResult GeneratePDF() 
+        {
+            var Renderer = new IronPdf.HtmlToPdf();
+            Renderer.RenderingOptions.PaperSize = IronPdf.Rendering.PdfPaperSize.A2;
+            Renderer.RenderingOptions.ViewPortWidth = 1280;
+            Renderer.RenderingOptions.EnableJavaScript= true;
+            Renderer.RenderingOptions.RenderDelay= 1000;
+            Renderer.RenderingOptions.CssMediaType = IronPdf.Rendering.PdfCssMediaType.Print;
+            var doc = Renderer.RenderUrlAsPdf("http://localhost:5180/Home/Usuario");
+            return File(doc.Stream.ToArray(), "application/pdf");
+        }
+
         public IActionResult RegisterAdmin()
         {
             return View();
