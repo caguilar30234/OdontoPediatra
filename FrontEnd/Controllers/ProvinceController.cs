@@ -13,7 +13,8 @@ namespace FrontEnd.Controllers
         // GET: ProvinceController
         public ActionResult Index()
         {
-            List<ProvinceViewModel> Provinces = provinceHelper.GetAll();
+            string token = HttpContext.Session.GetString("token");
+            List<ProvinceViewModel> Provinces = provinceHelper.GetAll(token);
 
             return View(Provinces);
         }

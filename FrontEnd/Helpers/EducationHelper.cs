@@ -5,10 +5,10 @@ namespace FrontEnd.Helpers
 {
     public class EducationHelper
     {
-        public List<EducationViewModel> GetAll()
+        public List<EducationViewModel> GetAll(string token)
         {
 
-            ServiceRepository Repository = new ServiceRepository();
+            ServiceRepository Repository = new ServiceRepository(token);
             HttpResponseMessage responseMessage = Repository.GetResponse("api/Education");
             responseMessage.EnsureSuccessStatusCode();
             var content = responseMessage.Content.ReadAsStringAsync().Result;

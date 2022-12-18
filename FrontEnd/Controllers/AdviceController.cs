@@ -13,8 +13,9 @@ namespace FrontEnd.Controllers
 
         public ActionResult Index()
         {
+            string token = HttpContext.Session.GetString("token");
 
-            ServiceRepository Repository = new ServiceRepository();
+            ServiceRepository Repository = new ServiceRepository(token);
             HttpResponseMessage responseMessage = Repository.GetResponse("api/Advice");
 
             switch (responseMessage.StatusCode)
@@ -35,7 +36,8 @@ namespace FrontEnd.Controllers
         {
             try
             {
-               AdviceViewModel advice = adviceHelper.Details(id);
+                string token = HttpContext.Session.GetString("token");
+                AdviceViewModel advice = adviceHelper.Details(id, token);
                 return View(advice);
             }
             catch (Exception)
@@ -58,7 +60,8 @@ namespace FrontEnd.Controllers
         {
             try
             {
-                adviceHelper.Create(advice, fileUpload);
+                string token = HttpContext.Session.GetString("token");
+                adviceHelper.Create(advice, fileUpload, token);
                 return RedirectToAction("Index");
             }
             catch (HttpRequestException)
@@ -73,8 +76,8 @@ namespace FrontEnd.Controllers
 
         public ActionResult Edit(int id)
         {
-
-            model = adviceHelper.Details(id);
+            string token = HttpContext.Session.GetString("token");
+            model = adviceHelper.Details(id, token);
 
             return View(model);
         }
@@ -84,14 +87,16 @@ namespace FrontEnd.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(AdviceViewModel advice, List<IFormFile> fileUpload)
         {
-            adviceHelper.Edit(advice, fileUpload);
+            string token = HttpContext.Session.GetString("token");
+            adviceHelper.Edit(advice, fileUpload, token);
             return RedirectToAction("Details", new { id = advice.AdviceId });
         }
 
         [HttpGet]
         public ActionResult Delete(int id)
         {
-            model = adviceHelper.Details(id);
+            string token = HttpContext.Session.GetString("token");
+            model = adviceHelper.Details(id, token);
             return View(model);
         }
 
@@ -99,7 +104,8 @@ namespace FrontEnd.Controllers
         [HttpPost]
         public ActionResult Delete(AdviceViewModel advice)
         {
-            bool Eliminado = adviceHelper.Delete(advice);
+            string token = HttpContext.Session.GetString("token");
+            bool Eliminado = adviceHelper.Delete(advice, token);
 
             if (Eliminado)
             {

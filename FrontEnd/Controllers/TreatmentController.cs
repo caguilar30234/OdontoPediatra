@@ -12,7 +12,8 @@ namespace FrontEnd.Controllers
         // GET: TreatmentController
         public ActionResult Index()
         {
-            List<TreatmentViewModel> Treatments = TreatmentHelper.GetAll();
+            string token = HttpContext.Session.GetString("token");
+            List<TreatmentViewModel> Treatments = TreatmentHelper.GetAll(token);
 
             return View(Treatments);
         }
@@ -22,7 +23,8 @@ namespace FrontEnd.Controllers
         {
             try
             {
-                TreatmentViewModel Treatment = TreatmentHelper.Details(id);
+                string token = HttpContext.Session.GetString("token");
+                TreatmentViewModel Treatment = TreatmentHelper.Details(id, token);
                 return View(Treatment);
             }
             catch (Exception)
@@ -45,7 +47,8 @@ namespace FrontEnd.Controllers
         {
             try
             {
-                TreatmentHelper.Create(Treatment);
+                string token = HttpContext.Session.GetString("token");
+                TreatmentHelper.Create(Treatment, token);
                 return RedirectToAction("Index");
             }
             catch (HttpRequestException)
@@ -61,7 +64,8 @@ namespace FrontEnd.Controllers
         // GET: TreatmentController/Edit/5
         public ActionResult Edit(int id)
         {
-            model = TreatmentHelper.Details(id);
+            string token = HttpContext.Session.GetString("token");
+            model = TreatmentHelper.Details(id, token);
 
             return View(model);
         }
@@ -73,7 +77,8 @@ namespace FrontEnd.Controllers
         {
             try
             {
-                TreatmentHelper.EditResult(Treatment);
+                string token = HttpContext.Session.GetString("token");
+                TreatmentHelper.EditResult(Treatment,token);
                 return RedirectToAction("Details", new { id = Treatment.TreatmentId });
             }
             catch
@@ -85,7 +90,8 @@ namespace FrontEnd.Controllers
         // GET: TreatmentController/Delete/5
         public ActionResult Delete(int id)
         {
-            model = TreatmentHelper.Delete(id);
+            string token = HttpContext.Session.GetString("token");
+            model = TreatmentHelper.Delete(id, token);
             return View(model);
         }
 
@@ -94,7 +100,8 @@ namespace FrontEnd.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(TreatmentViewModel Treatment)
         {
-            bool Eliminado = TreatmentHelper.DeleteResponse(Treatment);
+            string token = HttpContext.Session.GetString("token");
+            bool Eliminado = TreatmentHelper.DeleteResponse(Treatment, token);
 
             if (Eliminado)
             {
@@ -108,7 +115,8 @@ namespace FrontEnd.Controllers
 
         public JsonResult ConsultarTratamientosJson()
         {
-            List<TreatmentViewModel> Treatments = TreatmentHelper.GetAll();
+            string token = HttpContext.Session.GetString("token");
+            List<TreatmentViewModel> Treatments = TreatmentHelper.GetAll(token);
 
             var servicios = Json(Treatments.ToList());
             return servicios;

@@ -5,10 +5,10 @@ namespace FrontEnd.Helpers
 {
     public class DoctorHelper
     {
-        public List<DoctorViewModel> GetAll()
+        public List<DoctorViewModel> GetAll(string token)
         {
 
-            ServiceRepository Repository = new ServiceRepository();
+            ServiceRepository Repository = new ServiceRepository(token);
             HttpResponseMessage responseMessage = Repository.GetResponse("api/doctor");
             responseMessage.EnsureSuccessStatusCode();
             var content = responseMessage.Content.ReadAsStringAsync().Result;

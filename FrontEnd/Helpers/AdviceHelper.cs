@@ -11,9 +11,9 @@ namespace FrontEnd.Helpers
         /// List all advices
         /// </summary>
         /// <returns>AdviceViewModel GetAll</returns>
-        public List<AdviceViewModel> GetAll()
+        public List<AdviceViewModel> GetAll(string token)
         {          
-            ServiceRepository Repository = new ServiceRepository();
+            ServiceRepository Repository = new ServiceRepository(token);
             HttpResponseMessage responseMessage = Repository.GetResponse("api/Advice");
             responseMessage.EnsureSuccessStatusCode();
             var content = responseMessage.Content.ReadAsStringAsync().Result;
@@ -24,9 +24,9 @@ namespace FrontEnd.Helpers
 
         }
 
-        public AdviceViewModel Details(int id)
+        public AdviceViewModel Details(int id, string token)
         {
-            ServiceRepository serviceObj = new ServiceRepository();
+            ServiceRepository serviceObj = new ServiceRepository(token);
             HttpResponseMessage response = serviceObj.GetResponse("api/advice/" + id.ToString());
             response.EnsureSuccessStatusCode();
             AdviceViewModel adviceViewModel = response.Content.ReadAsAsync<AdviceViewModel>().Result;
@@ -41,7 +41,7 @@ namespace FrontEnd.Helpers
         /// <param name="advice"></param>
         /// <param name="fileUpload"></param>
         /// <returns>AdviceViewModel</returns>
-        public AdviceViewModel Create(AdviceViewModel advice, List<IFormFile> fileUpload)
+        public AdviceViewModel Create(AdviceViewModel advice, List<IFormFile> fileUpload, string token)
         {
             if (fileUpload.Count > 0)
             {
@@ -56,7 +56,7 @@ namespace FrontEnd.Helpers
                 }
 
             }
-            ServiceRepository serviceObj = new ServiceRepository();
+            ServiceRepository serviceObj = new ServiceRepository(token);
             HttpResponseMessage response = serviceObj.PostResponse("api/advice/", advice);
             response.EnsureSuccessStatusCode();
             AdviceViewModel adviceViewModel =
@@ -71,7 +71,7 @@ namespace FrontEnd.Helpers
         /// <param name="id"></param>
         /// <returns>AdviceViewModel</returns>
 
-        public AdviceViewModel Edit(AdviceViewModel advice, List<IFormFile> fileUpload)
+        public AdviceViewModel Edit(AdviceViewModel advice, List<IFormFile> fileUpload, string token)
         {
             if (fileUpload.Count > 0)
             {
@@ -86,7 +86,7 @@ namespace FrontEnd.Helpers
                 }
 
             }
-            ServiceRepository serviceObj = new ServiceRepository();
+            ServiceRepository serviceObj = new ServiceRepository(token);
             HttpResponseMessage response = serviceObj.PutResponse("api/advice/", advice);
             response.EnsureSuccessStatusCode();
             AdviceViewModel adviceViewModel =
@@ -94,9 +94,9 @@ namespace FrontEnd.Helpers
             return adviceViewModel;
         }
 
-        public bool Delete(AdviceViewModel advice)
+        public bool Delete(AdviceViewModel advice, string token)
         {
-            ServiceRepository serviceObj = new ServiceRepository();
+            ServiceRepository serviceObj = new ServiceRepository(token);
             HttpResponseMessage response = serviceObj.DeleteResponse("api/advice/" + advice.AdviceId.ToString());
             response.EnsureSuccessStatusCode();
             bool Eliminado = response.Content.ReadAsAsync<bool>().IsCompleted;

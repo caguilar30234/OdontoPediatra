@@ -13,7 +13,8 @@ namespace FrontEnd.Controllers
         {
             try
             {
-                ServiceRepository serviceObj = new ServiceRepository();
+                string token = HttpContext.Session.GetString("token");
+                ServiceRepository serviceObj = new ServiceRepository(token);
                 HttpResponseMessage response = serviceObj.GetResponse("api/education/" + id.ToString());
                 var content = response.Content.ReadAsStringAsync().Result;
                 EducationViewModel educationViewModel = response.Content.ReadAsAsync<EducationViewModel>().Result;
@@ -28,9 +29,10 @@ namespace FrontEnd.Controllers
 
         private List<EducationViewModel> GetEducations()
         {
+            string token = HttpContext.Session.GetString("token");
             EducationHelper educationHelper = new EducationHelper();
             EducationViewModel education = new EducationViewModel();
-            List<EducationViewModel> schedules = educationHelper.GetAll();
+            List<EducationViewModel> schedules = educationHelper.GetAll(token);
 
             return schedules;
         }
@@ -38,7 +40,8 @@ namespace FrontEnd.Controllers
         // GET: PatientController
         public ActionResult Index()
         {
-            List<PatientViewModel> Patients = patientHelper.GetAll();
+            string token = HttpContext.Session.GetString("token");
+            List<PatientViewModel> Patients = patientHelper.GetAll(token);
             foreach (var item in Patients)
             {
                 item.Education = GetEducation(item.EducationId);
@@ -52,7 +55,8 @@ namespace FrontEnd.Controllers
         {
             try
             {
-                PatientViewModel Patient = patientHelper.Details(id);
+                string token = HttpContext.Session.GetString("token");
+                PatientViewModel Patient = patientHelper.Details(id, token);
                 Patient.Education = GetEducation(Patient.EducationId);
                 return View(Patient);
             }
@@ -78,7 +82,8 @@ namespace FrontEnd.Controllers
         {
             try
             {
-                patientHelper.Create(Patient);
+                string token = HttpContext.Session.GetString("token");
+                patientHelper.Create(Patient, token);
                 return RedirectToAction("Index");
             }
             catch (HttpRequestException)
@@ -94,7 +99,8 @@ namespace FrontEnd.Controllers
         // GET: PatientController/Edit/5
         public ActionResult Edit(int id)
         {
-            model = patientHelper.Details(id);
+            string token = HttpContext.Session.GetString("token");
+            model = patientHelper.Details(id, token);
             model.Educations = GetEducations();
 
             return View(model);
@@ -107,7 +113,8 @@ namespace FrontEnd.Controllers
         {
             try
             {
-                patientHelper.EditResult(Patient);
+                string token = HttpContext.Session.GetString("token");
+                patientHelper.EditResult(Patient, token);
                 return RedirectToAction("Details", new { id = Patient.PatientId });
             }
             catch
@@ -119,7 +126,8 @@ namespace FrontEnd.Controllers
         // GET: PatientController/Delete/5
         public ActionResult Delete(int id)
         {
-            model = patientHelper.Delete(id);
+            string token = HttpContext.Session.GetString("token");
+            model = patientHelper.Delete(id, token);
             model.Education = GetEducation(model.EducationId);
             return View(model);
         }
@@ -129,7 +137,8 @@ namespace FrontEnd.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(PatientViewModel Patient)
         {
-            bool Eliminado = patientHelper.DeleteResponse(Patient);
+            string token = HttpContext.Session.GetString("token");
+            bool Eliminado = patientHelper.DeleteResponse(Patient, token);
 
             if (Eliminado)
             {

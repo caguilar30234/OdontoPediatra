@@ -15,7 +15,8 @@ namespace FrontEnd.Controllers
         {
             try
             {
-                ServiceRepository serviceObj = new ServiceRepository();
+                string token = HttpContext.Session.GetString("token");
+                ServiceRepository serviceObj = new ServiceRepository(token);
                 HttpResponseMessage response = serviceObj.GetResponse("api/province/" + id.ToString());
                 var content = response.Content.ReadAsStringAsync().Result;
                 ProvinceViewModel provinceViewModel = response.Content.ReadAsAsync<ProvinceViewModel>().Result;
@@ -30,8 +31,9 @@ namespace FrontEnd.Controllers
 
         private List<ProvinceViewModel> GetProvinces()
         {
+            string token = HttpContext.Session.GetString("token");
             ProvinceHelper provinceHelper= new ProvinceHelper();
-            List<ProvinceViewModel> provinces = provinceHelper.GetAll();
+            List<ProvinceViewModel> provinces = provinceHelper.GetAll(token);
 
             return provinces;
         }
@@ -40,7 +42,8 @@ namespace FrontEnd.Controllers
         {
             try
             {
-                ServiceRepository serviceObj = new ServiceRepository();
+                string token = HttpContext.Session.GetString("token");
+                ServiceRepository serviceObj = new ServiceRepository(token);
                 HttpResponseMessage response = serviceObj.GetResponse("api/doctor/" + id.ToString());
                 var content = response.Content.ReadAsStringAsync().Result;
                 DoctorViewModel doctorViewModel = response.Content.ReadAsAsync<DoctorViewModel>().Result;
@@ -55,8 +58,9 @@ namespace FrontEnd.Controllers
 
         private List<DoctorViewModel> GetDoctors()
         {
+            string token = HttpContext.Session.GetString("token");
             DoctorHelper doctorHelper = new DoctorHelper();
-            List<DoctorViewModel> doctors = doctorHelper.GetAll();
+            List<DoctorViewModel> doctors = doctorHelper.GetAll(token);
 
             return doctors;
         }
@@ -66,7 +70,8 @@ namespace FrontEnd.Controllers
         // GET: HomeController1
         public ActionResult Index()
         {
-            List<ClinicViewModel> clinics = clinicaHelper.GetAll();
+            string token = HttpContext.Session.GetString("token");
+            List<ClinicViewModel> clinics = clinicaHelper.GetAll(token);
 
             foreach (var item in clinics)
             {
@@ -82,7 +87,8 @@ namespace FrontEnd.Controllers
         {
             try
             {
-                ClinicViewModel clinic = clinicaHelper.Details(id);
+                string token = HttpContext.Session.GetString("token");
+                ClinicViewModel clinic = clinicaHelper.Details(id, token);
                 clinic.Province = GetProvince(clinic.ProvinceId);
                 return View(clinic);
             }
@@ -108,7 +114,8 @@ namespace FrontEnd.Controllers
         {
             try
             {
-                clinicaHelper.Create(clinic);
+                string token = HttpContext.Session.GetString("token");
+                clinicaHelper.Create(clinic, token);
                 return RedirectToAction("Index");
             }
             catch (HttpRequestException)
@@ -124,7 +131,8 @@ namespace FrontEnd.Controllers
         // GET: HomeController1/Edit/5
         public ActionResult Edit(int id)
         {
-            model = clinicaHelper.Edit(id);
+            string token = HttpContext.Session.GetString("token");
+            model = clinicaHelper.Edit(id, token);
 
             model.Provinces = GetProvinces();
 
@@ -138,7 +146,8 @@ namespace FrontEnd.Controllers
         {
             try
             {
-                clinicaHelper.EditResult(clinic);
+                string token = HttpContext.Session.GetString("token");
+                clinicaHelper.EditResult(clinic,token);
                 return RedirectToAction("Details", new { id = clinic.ClinicId });
             }
             catch
@@ -150,7 +159,8 @@ namespace FrontEnd.Controllers
         // GET: HomeController1/Delete/5
         public ActionResult Delete(int id)
         {
-            model = clinicaHelper.Delete(id);
+            string token = HttpContext.Session.GetString("token");
+            model = clinicaHelper.Delete(id, token);
             model.Province = GetProvince(model.ProvinceId);
             return View(model);
         }
@@ -160,7 +170,8 @@ namespace FrontEnd.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(ClinicViewModel clinic)
         {
-            bool Eliminado = clinicaHelper.DeleteResponse(clinic);
+            string token = HttpContext.Session.GetString("token");
+            bool Eliminado = clinicaHelper.DeleteResponse(clinic, token);
 
             if (Eliminado)
             {

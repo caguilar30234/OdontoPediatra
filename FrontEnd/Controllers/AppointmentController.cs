@@ -15,7 +15,8 @@ namespace FrontEnd.Controllers
         {
             try
             {
-                ServiceRepository serviceObj = new ServiceRepository();
+                string token = HttpContext.Session.GetString("token");
+                ServiceRepository serviceObj = new ServiceRepository(token);
                 HttpResponseMessage response = serviceObj.GetResponse("api/schedule/" + id.ToString());
                 var content = response.Content.ReadAsStringAsync().Result;
                 ScheduleViewModel scheduleViewModel = response.Content.ReadAsAsync<ScheduleViewModel>().Result;
@@ -30,9 +31,10 @@ namespace FrontEnd.Controllers
 
         private List<ScheduleViewModel> GetSchedules()
         {
+            string token = HttpContext.Session.GetString("token");
             ScheduleHelper scheduleHelper = new ScheduleHelper();
             ScheduleViewModel schedule = new ScheduleViewModel();
-            List<ScheduleViewModel> schedules = scheduleHelper.GetAll();
+            List<ScheduleViewModel> schedules = scheduleHelper.GetAll(token);
 
             return schedules;
         }
@@ -41,17 +43,19 @@ namespace FrontEnd.Controllers
 
         private PatientViewModel GetPatient(int id)
         {
+            string token = HttpContext.Session.GetString("token");
             PatientHelper patientHelper= new PatientHelper();
             PatientViewModel patient= new PatientViewModel();
-            patient = patientHelper.GetPatient(id);
+            patient = patientHelper.GetPatient(id, token);
 
             return patient;
         }
         private List<PatientViewModel> GetPatients()
         {
+            string token = HttpContext.Session.GetString("token");
             PatientHelper patientHelper = new PatientHelper();
             PatientViewModel patient = new PatientViewModel();
-            List<PatientViewModel> patients = patientHelper.GetAll();
+            List<PatientViewModel> patients = patientHelper.GetAll(token);
 
             return patients;
         }
@@ -60,7 +64,8 @@ namespace FrontEnd.Controllers
         // GET: AppointmentController
         public ActionResult Index()
         {
-            List<AppointmentViewModel> appointments = appointmentHelper.GetAll();
+            string token = HttpContext.Session.GetString("token");
+            List<AppointmentViewModel> appointments = appointmentHelper.GetAll(token);
 
             foreach (var item in appointments)
             {
@@ -77,7 +82,8 @@ namespace FrontEnd.Controllers
         {
             try
             {
-                AppointmentViewModel appointmentViewModel = appointmentHelper.Details(id);
+                string token = HttpContext.Session.GetString("token");
+                AppointmentViewModel appointmentViewModel = appointmentHelper.Details(id, token);
 
                 appointmentViewModel.Patient = GetPatient(appointmentViewModel.PatientId);
                 appointmentViewModel.Schedule = GetSchedule(appointmentViewModel.ScheduleId);
@@ -109,7 +115,8 @@ namespace FrontEnd.Controllers
         {
             try
             {
-                appointmentHelper.Create(appointment);
+                string token = HttpContext.Session.GetString("token");
+                appointmentHelper.Create(appointment, token);
                 
                 return RedirectToAction("Index");
             }
@@ -126,7 +133,8 @@ namespace FrontEnd.Controllers
         // GET: AppointmentController/Edit/5
         public ActionResult Edit(int id)
         {
-            model = appointmentHelper.Details(id);
+            string token = HttpContext.Session.GetString("token");
+            model = appointmentHelper.Details(id, token);
 
             model.Schedules = GetSchedules();
 
@@ -140,7 +148,8 @@ namespace FrontEnd.Controllers
         {
             try
             {
-                appointmentHelper.EditResult(appointmentViewModel);
+                string token = HttpContext.Session.GetString("token");
+                appointmentHelper.EditResult(appointmentViewModel, token);
                 return RedirectToAction("Details", new { id = appointmentViewModel.AppoinmentId });
             }
             catch
@@ -152,7 +161,8 @@ namespace FrontEnd.Controllers
         // GET: AppointmentController/Delete/5
         public ActionResult Delete(int id)
         {
-            model = appointmentHelper.Delete(id);
+            string token = HttpContext.Session.GetString("token");
+            model = appointmentHelper.Delete(id, token);
             model.Patient = GetPatient(model.PatientId);
             model.Schedule = GetSchedule(model.ScheduleId);
             return View(model);
@@ -163,7 +173,8 @@ namespace FrontEnd.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(AppointmentViewModel appointment)
         {
-            bool Eliminado = appointmentHelper.DeleteResponse(appointment);
+            string token = HttpContext.Session.GetString("token");
+            bool Eliminado = appointmentHelper.DeleteResponse(appointment, token);
 
             if (Eliminado)
             {

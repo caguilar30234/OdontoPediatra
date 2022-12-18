@@ -11,7 +11,8 @@ namespace FrontEnd.Controllers
         // GET: EducationController
         public ActionResult Index()
         {
-            List<EducationViewModel> Educations = EducationHelper.GetAll();
+            string token = HttpContext.Session.GetString("token");
+            List<EducationViewModel> Educations = EducationHelper.GetAll(token);
 
             return View(Educations);
         }

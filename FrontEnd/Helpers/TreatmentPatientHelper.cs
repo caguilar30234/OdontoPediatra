@@ -5,10 +5,10 @@ namespace FrontEnd.Helpers
 {
     public class TreatmentPatientHelper
     {
-        public List<TreatmentPatientViewModel> GetAll()
+        public List<TreatmentPatientViewModel> GetAll(string token)
         {
 
-            ServiceRepository Repository = new ServiceRepository();
+            ServiceRepository Repository = new ServiceRepository(token);
             HttpResponseMessage responseMessage = Repository.GetResponse("api/TreatmentPatient");
             responseMessage.EnsureSuccessStatusCode();
             var content = responseMessage.Content.ReadAsStringAsync().Result;
@@ -19,18 +19,18 @@ namespace FrontEnd.Helpers
 
         }
 
-        public TreatmentPatientViewModel Details(int id)
+        public TreatmentPatientViewModel Details(int id, string token)
         {
-            ServiceRepository serviceObj = new ServiceRepository();
+            ServiceRepository serviceObj = new ServiceRepository(token);
             HttpResponseMessage response = serviceObj.GetResponse("api/TreatmentPatient/" + id.ToString());
             response.EnsureSuccessStatusCode();
             TreatmentPatientViewModel treatmentPatientViewModel = response.Content.ReadAsAsync<TreatmentPatientViewModel>().Result;
             return treatmentPatientViewModel;
         }
 
-        public TreatmentPatientViewModel Create(TreatmentPatientViewModel treatmentPatient)
+        public TreatmentPatientViewModel Create(TreatmentPatientViewModel treatmentPatient, string token)
         {
-            ServiceRepository serviceObj = new ServiceRepository();
+            ServiceRepository serviceObj = new ServiceRepository(token);
             HttpResponseMessage response = serviceObj.PostResponse("api/TreatmentPatient/", treatmentPatient);
             response.EnsureSuccessStatusCode();
             TreatmentPatientViewModel treatmentPatientViewModel =
@@ -38,9 +38,9 @@ namespace FrontEnd.Helpers
             return treatmentPatientViewModel;
         }
 
-        public TreatmentPatientViewModel Edit(int id)
+        public TreatmentPatientViewModel Edit(int id, string token)
         {
-            ServiceRepository serviceObj = new ServiceRepository();
+            ServiceRepository serviceObj = new ServiceRepository(token);
             HttpResponseMessage response = serviceObj.GetResponse("api/TreatmentPatient/" + id.ToString());
             response.EnsureSuccessStatusCode();
             TreatmentPatientViewModel treatmentPatientViewModel = response.Content.ReadAsAsync<TreatmentPatientViewModel>().Result;
@@ -49,9 +49,9 @@ namespace FrontEnd.Helpers
         }
 
 
-        public TreatmentPatientViewModel EditResult(TreatmentPatientViewModel treatmentPatient)
+        public TreatmentPatientViewModel EditResult(TreatmentPatientViewModel treatmentPatient, string token)
         {
-            ServiceRepository serviceObj = new ServiceRepository();
+            ServiceRepository serviceObj = new ServiceRepository(token);
             HttpResponseMessage response = serviceObj.PutResponse("api/TreatmentPatient/", treatmentPatient);
             response.EnsureSuccessStatusCode();
             TreatmentPatientViewModel treatmentPatientViewModel =
@@ -59,19 +59,19 @@ namespace FrontEnd.Helpers
             return treatmentPatientViewModel;
         }
 
-        public TreatmentPatientViewModel Delete(int id)
+        public TreatmentPatientViewModel Delete(int id, string token)
         {
-            ServiceRepository serviceObj = new ServiceRepository();
+            ServiceRepository serviceObj = new ServiceRepository(token);
             HttpResponseMessage response = serviceObj.GetResponse("api/TreatmentPatient/" + id.ToString());
             response.EnsureSuccessStatusCode();
             TreatmentPatientViewModel treatmentPatientViewModel = response.Content.ReadAsAsync<TreatmentPatientViewModel>().Result;
             return treatmentPatientViewModel;
         }
 
-        public bool DeleteResponse(TreatmentPatientViewModel treatmentPatient)
+        public bool DeleteResponse(TreatmentPatientViewModel treatmentPatient, string token)
         {
             int id = treatmentPatient.TreatmentPatientId;
-            ServiceRepository serviceObj = new ServiceRepository();
+            ServiceRepository serviceObj = new ServiceRepository(token);
             HttpResponseMessage response = serviceObj.DeleteResponse("api/TreatmentPatient/" + id.ToString());
             response.EnsureSuccessStatusCode();
             bool Eliminado = response.Content.ReadAsAsync<bool>().IsCompleted;

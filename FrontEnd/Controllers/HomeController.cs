@@ -32,7 +32,8 @@ namespace FrontEnd.Controllers
         }
         public IActionResult Usuario()
         {
-            List<TreatmentViewModel> Treatments = TreatmentHelper.GetAll();
+            string token = HttpContext.Session.GetString("token");
+            List<TreatmentViewModel> Treatments = TreatmentHelper.GetAll(token);
 
             return View(Treatments);
         }

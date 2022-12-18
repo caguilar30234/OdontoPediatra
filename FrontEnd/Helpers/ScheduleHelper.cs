@@ -5,9 +5,9 @@ namespace FrontEnd.Helpers
 {
     public class ScheduleHelper
     {
-        public List<ScheduleViewModel> GetAll()
+        public List<ScheduleViewModel> GetAll(string token)
         {
-            ServiceRepository Repository = new ServiceRepository();
+            ServiceRepository Repository = new ServiceRepository(token);
             HttpResponseMessage responseMessage = Repository.GetResponse("api/schedule");
             responseMessage.EnsureSuccessStatusCode();
             var content = responseMessage.Content.ReadAsStringAsync().Result;
@@ -16,18 +16,18 @@ namespace FrontEnd.Helpers
             return schedules;
         }
 
-        public ScheduleViewModel Details(int id)
+        public ScheduleViewModel Details(int id, string token)
         {
-            ServiceRepository serviceObj = new ServiceRepository();
+            ServiceRepository serviceObj = new ServiceRepository(token);
             HttpResponseMessage response = serviceObj.GetResponse("api/schedule/" + id.ToString());
             response.EnsureSuccessStatusCode();
             ScheduleViewModel ScheduleViewModel = response.Content.ReadAsAsync<ScheduleViewModel>().Result;
             return ScheduleViewModel;
         }
 
-        public ScheduleViewModel Create(ScheduleViewModel Schedule)
+        public ScheduleViewModel Create(ScheduleViewModel Schedule, string token)
         {
-            ServiceRepository serviceObj = new ServiceRepository();
+            ServiceRepository serviceObj = new ServiceRepository(token);
             HttpResponseMessage response = serviceObj.PostResponse("api/Schedule/", Schedule);
             response.EnsureSuccessStatusCode();
             ScheduleViewModel ScheduleViewModel =
@@ -35,9 +35,9 @@ namespace FrontEnd.Helpers
             return ScheduleViewModel;
         }
 
-        public ScheduleViewModel Edit(int id)
+        public ScheduleViewModel Edit(int id, string token)
         {
-            ServiceRepository serviceObj = new ServiceRepository();
+            ServiceRepository serviceObj = new ServiceRepository(token);
             HttpResponseMessage response = serviceObj.GetResponse("api/advice/" + id.ToString());
             response.EnsureSuccessStatusCode();
             ScheduleViewModel ScheduleViewModel = response.Content.ReadAsAsync<ScheduleViewModel>().Result;
@@ -46,9 +46,9 @@ namespace FrontEnd.Helpers
         }
 
 
-        public ScheduleViewModel EditResult(ScheduleViewModel Schedule)
+        public ScheduleViewModel EditResult(ScheduleViewModel Schedule, string token)
         {
-            ServiceRepository serviceObj = new ServiceRepository();
+            ServiceRepository serviceObj = new ServiceRepository(token);
             HttpResponseMessage response = serviceObj.PutResponse("api/Schedule/", Schedule);
             response.EnsureSuccessStatusCode();
             ScheduleViewModel ScheduleViewModel =
@@ -56,9 +56,9 @@ namespace FrontEnd.Helpers
             return ScheduleViewModel;
         }
 
-        public bool Delete(ScheduleViewModel Schedule)
+        public bool Delete(ScheduleViewModel Schedule, string token)
         {
-            ServiceRepository serviceObj = new ServiceRepository();
+            ServiceRepository serviceObj = new ServiceRepository(token);
             HttpResponseMessage response = serviceObj.DeleteResponse("api/Schedule/" + Schedule.ScheduleId.ToString());
             response.EnsureSuccessStatusCode();
             bool Eliminado = response.Content.ReadAsAsync<bool>().IsCompleted;

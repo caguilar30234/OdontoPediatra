@@ -5,10 +5,10 @@ namespace FrontEnd.Helpers
 {
     public class ProvinceHelper
     {
-        public List<ProvinceViewModel> GetAll()
+        public List<ProvinceViewModel> GetAll(string token)
         {
 
-            ServiceRepository Repository = new ServiceRepository();
+            ServiceRepository Repository = new ServiceRepository(token);
             HttpResponseMessage responseMessage = Repository.GetResponse("api/Province");
             responseMessage.EnsureSuccessStatusCode();
             var content = responseMessage.Content.ReadAsStringAsync().Result;
