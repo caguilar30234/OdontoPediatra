@@ -48,6 +48,6 @@
     <form asp-action="Delete">
         @Html.HiddenFor(Model => Model.PatientId)
         <input type="submit" value="Eliminar Paciente" class="btn btn-danger" /> |
-        <a asp-action="Index" class="btn btn-primary">Regresar</a>
+        <a asp-controller="Home" asp-action="Paciente" class="btn btn-primary">Regresar</a>
     </form>
 </div>

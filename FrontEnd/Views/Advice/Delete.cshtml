@@ -35,7 +35,8 @@
     
     <form asp-action="Delete">
         @Html.HiddenFor(Model=>Model.AdviceId)
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index" class="btn btn-primary">Back to List</a>
+        <input type="submit" value="Delete" class="btn btn-danger" /> 
+        <br/>
+        <a asp-controller="Home" asp-action="Paciente" class="btn btn-primary">Regresar</a>
     </form>
 </div>
